@@ -2,7 +2,7 @@
   {
     "prontuario_id": "PRN-001234",
     "paciente_nome": "João da Silva",
-    "data_coleta": "2026-06-23",
+    "data_coleta": "2026-06-25",
     "microorganismo": "Klebsiella pneumoniae",
     "descricao": "Cultura de urina positiva",
     "perfil_resistencia": {
@@ -14,7 +14,7 @@
   {
     "prontuario_id": "PRN-005678",
     "paciente_nome": "Maria Oliveira",
-    "data_coleta": "2026-06-23",
+    "data_coleta": "2026-06-25",
     "microorganismo": "Acinetobacter baumannii",
     "descricao": "Hemocultura positiva",
     "perfil_resistencia": {

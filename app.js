@@ -19,8 +19,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use('/', indexRouter);
-// app.use('/users', usersRouter);
+app.use('/real', require('./src/routes/real'))
+app.use('/integrasus', require('./src/routes/integrasus'));
+app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
