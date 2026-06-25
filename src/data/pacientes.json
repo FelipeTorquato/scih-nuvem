@@ -14,5 +14,13 @@
     "unidade_internacao": "Clínica Médica",
     "leito": "CM-14",
     "data_internacao": "2026-06-22"
+  },
+  {
+    "prontuario_id": "PRN-005371",
+    "nome": "Francisco Torres",
+    "data_nascimento": "1955-02-01",
+    "unidade_internacao": "Clínica Médica",
+    "leito": "CM-02",
+    "data_internacao": "2026-06-18"
   }
 ]

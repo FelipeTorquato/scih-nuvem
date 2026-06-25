@@ -21,5 +21,17 @@
       "carbapenem": "RESISTENTE",
       "polimixina": "SENSÍVEL"
     }
+  },
+  {
+    "prontuario_id": "PRN-005371",
+    "paciente_nome": "Francisco Torres",
+    "data_coleta": "2026-06-25",
+    "microorganismo": "Klebsiella pneumoniae",
+    "descricao": "Cultura de urina positiva",
+    "perfil_resistencia": {
+      "carbapenem": "RESISTENTE",
+      "polimixina": "RESISTENTE",
+      "amicacina": "RESISTENTE"
+    }
   }
 ]
