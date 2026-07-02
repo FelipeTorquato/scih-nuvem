@@ -1,20 +1,13 @@
 const router = require('express').Router();
-const laudos = require('../data/laudos.json');
+// const laudos = require('../data/laudos.json');
+const path = require('path');
 
-// Lista todos os laudos positivos (com filtro opcional por data)
-router.get('/laudos', (req, res) => {
-    const {data_coleta} = req.query;
-    const resultado = data_coleta
-        ? laudos.filter(l => l.data_coleta === data_coleta)
-        : laudos;
-    res.json(resultado);
+router.get('/laudos/:prontuario', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../r.e.a.l_exemplo.pdf'));
 });
 
-// Busca laudo por prontuário
-router.get('/laudos/:prontuario', (req, res) => {
-    const laudo = laudos.find(l => l.prontuario_id === req.params.prontuario);
-    if (!laudo) return res.status(404).json({erro: 'Laudo não encontrado'});
-    res.json(laudo);
+router.get('/laudos', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../r.e.a.l_exemplo.pdf'));
 });
 
 module.exports = router;
