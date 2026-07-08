@@ -1,6 +1,6 @@
 [
   {
-    "prontuario_id": "PRN-001234",
+    "prontuario_id": "PRT-001234",
     "nome": "João da Silva",
     "data_nascimento": "1965-03-12",
     "unidade_internacao": "UTI Adulto",
@@ -8,7 +8,7 @@
     "data_internacao": "2026-06-20"
   },
   {
-    "prontuario_id": "PRN-005678",
+    "prontuario_id": "PRT-005678",
     "nome": "Maria Oliveira",
     "data_nascimento": "1980-11-25",
     "unidade_internacao": "Clínica Médica",
@@ -16,7 +16,7 @@
     "data_internacao": "2026-06-22"
   },
   {
-    "prontuario_id": "PRN-005371",
+    "prontuario_id": "PRT-005371",
     "nome": "Francisco Torres",
     "data_nascimento": "1955-02-01",
     "unidade_internacao": "Clínica Médica",
