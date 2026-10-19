@@ -2,6 +2,17 @@ const router = require('express').Router();
 const fs = require('fs');
 const path = require('path');
 const file = path.join(__dirname, '../data/laudos.json');
+const reporteXlsx = path.join(__dirname, '../data/Reporte_Exemplo_Mock.xlsx');
+
+router.get('/reporte', (req, res) => {
+    res.type('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.sendFile(reporteXlsx);
+});
+
+router.get('/planilha', (req, res) => {
+    res.type('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.sendFile(reporteXlsx);
+});
 
 router.get('/laudos/:prontuario', (req, res) => {
     res.sendFile(path.join(__dirname, '../../r.e.a.l_exemplo-1.pdf'));

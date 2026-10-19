@@ -2,6 +2,17 @@ const router = require('express').Router();
 const fs = require('fs');
 const path = require('path');
 const file = path.join(__dirname, '../data/pacientes.json');
+const relatorioXls = path.join(__dirname, '../data/relatorio_permanencia_Exemplo_Mock.xls');
+
+router.get('/relatorio-permanencia', (req, res) => {
+    res.type('application/vnd.ms-excel');
+    res.sendFile(relatorioXls);
+});
+
+router.get('/planilha', (req, res) => {
+    res.type('application/vnd.ms-excel');
+    res.sendFile(relatorioXls);
+});
 
 // ponytail: lemos do disco em cada requisição para não perder atualizações e salvamos com writeFileSync. Sem necessidade de banco de dados por enquanto.
 router.get('/paciente', (req, res) => {
