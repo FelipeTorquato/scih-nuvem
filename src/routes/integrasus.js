@@ -1,20 +1,16 @@
 const router = require('express').Router();
 const fs = require('fs');
 const path = require('path');
+
 const file = path.join(__dirname, '../data/pacientes.json');
 const relatorioXls = path.join(__dirname, '../data/relatorio_permanencia_Exemplo_Mock.xls');
 
-router.get('/relatorio-permanencia', (req, res) => {
+router.get(['/relatorio-permanencia', '/planilha'], (req, res) => {
     res.type('application/vnd.ms-excel');
     res.sendFile(relatorioXls);
 });
 
-router.get('/planilha', (req, res) => {
-    res.type('application/vnd.ms-excel');
-    res.sendFile(relatorioXls);
-});
-
-// ponytail: lemos do disco em cada requisição para não perder atualizações e salvamos com writeFileSync. Sem necessidade de banco de dados por enquanto.
+// shortcut: leitura/escrita síncrona em JSON no disco por requisição; migrar para banco se houver concorrência.
 router.get('/paciente', (req, res) => {
     const { prontuario } = req.query;
     if (!prontuario) return res.status(400).json({ erro: 'Prontuário obrigatório' });
@@ -25,6 +21,9 @@ router.get('/paciente', (req, res) => {
 });
 
 router.post('/paciente', (req, res) => {
+    if (!req.body || typeof req.body !== 'object' || Array.isArray(req.body) || Object.keys(req.body).length === 0) {
+        return res.status(400).json({ erro: 'Corpo JSON inválido' });
+    }
     const pacientes = JSON.parse(fs.readFileSync(file, 'utf8'));
     pacientes.push(req.body);
     fs.writeFileSync(file, JSON.stringify(pacientes, null, 2));
@@ -32,6 +31,9 @@ router.post('/paciente', (req, res) => {
 });
 
 router.put('/paciente/:id', (req, res) => {
+    if (!req.body || typeof req.body !== 'object' || Array.isArray(req.body)) {
+        return res.status(400).json({ erro: 'Corpo JSON inválido' });
+    }
     const pacientes = JSON.parse(fs.readFileSync(file, 'utf8'));
     const idx = pacientes.findIndex(p => p.prontuario_id === req.params.id);
     if (idx === -1) return res.status(404).json({ erro: 'Paciente não encontrado' });
