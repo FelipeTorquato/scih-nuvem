@@ -5,9 +5,27 @@ const path = require('path');
 const file = path.join(__dirname, '../data/pacientes.json');
 const relatorioXls = path.join(__dirname, '../data/relatorio_permanencia_Exemplo_Mock.xls');
 
-router.get(['/relatorio-permanencia', '/planilha'], (req, res) => {
-    res.type('application/vnd.ms-excel');
-    res.sendFile(relatorioXls);
+function enviarArquivo(res, next, filePath, contentType, disposition, filename) {
+    if (!fs.existsSync(filePath)) {
+        return res.status(404).json({ erro: 'Arquivo não encontrado' });
+    }
+    res.setHeader('Content-Type', contentType);
+    res.setHeader('Content-Disposition', `${disposition}; filename="${filename}"`);
+    res.setHeader('Cache-Control', 'no-store');
+    res.sendFile(filePath, { cacheControl: false }, (err) => {
+        if (err) next(err);
+    });
+}
+
+router.get(['/relatorio-permanencia', '/planilha'], (req, res, next) => {
+    enviarArquivo(
+        res,
+        next,
+        relatorioXls,
+        'application/vnd.ms-excel',
+        'attachment',
+        'relatorio_permanencia_Exemplo_Mock.xls'
+    );
 });
 
 // shortcut: leitura/escrita síncrona em JSON no disco por requisição; migrar para banco se houver concorrência.
