@@ -1,9 +1,34 @@
 const router = require('express').Router();
 const fs = require('fs');
 const path = require('path');
-const file = path.join(__dirname, '../data/pacientes.json');
 
-// ponytail: lemos do disco em cada requisição para não perder atualizações e salvamos com writeFileSync. Sem necessidade de banco de dados por enquanto.
+const file = path.join(__dirname, '../data/pacientes.json');
+const relatorioXls = path.join(__dirname, '../data/relatorio_permanencia_Exemplo_Mock.xls');
+
+function enviarArquivo(res, next, filePath, contentType, disposition, filename) {
+    if (!fs.existsSync(filePath)) {
+        return res.status(404).json({ erro: 'Arquivo não encontrado' });
+    }
+    res.setHeader('Content-Type', contentType);
+    res.setHeader('Content-Disposition', `${disposition}; filename="${filename}"`);
+    res.setHeader('Cache-Control', 'no-store');
+    res.sendFile(filePath, { cacheControl: false }, (err) => {
+        if (err) next(err);
+    });
+}
+
+router.get(['/relatorio-permanencia', '/planilha'], (req, res, next) => {
+    enviarArquivo(
+        res,
+        next,
+        relatorioXls,
+        'application/vnd.ms-excel',
+        'attachment',
+        'relatorio_permanencia_Exemplo_Mock.xls'
+    );
+});
+
+// shortcut: leitura/escrita síncrona em JSON no disco por requisição; migrar para banco se houver concorrência.
 router.get('/paciente', (req, res) => {
     const { prontuario } = req.query;
     if (!prontuario) return res.status(400).json({ erro: 'Prontuário obrigatório' });
@@ -14,6 +39,9 @@ router.get('/paciente', (req, res) => {
 });
 
 router.post('/paciente', (req, res) => {
+    if (!req.body || typeof req.body !== 'object' || Array.isArray(req.body) || Object.keys(req.body).length === 0) {
+        return res.status(400).json({ erro: 'Corpo JSON inválido' });
+    }
     const pacientes = JSON.parse(fs.readFileSync(file, 'utf8'));
     pacientes.push(req.body);
     fs.writeFileSync(file, JSON.stringify(pacientes, null, 2));
@@ -21,6 +49,9 @@ router.post('/paciente', (req, res) => {
 });
 
 router.put('/paciente/:id', (req, res) => {
+    if (!req.body || typeof req.body !== 'object' || Array.isArray(req.body)) {
+        return res.status(400).json({ erro: 'Corpo JSON inválido' });
+    }
     const pacientes = JSON.parse(fs.readFileSync(file, 'utf8'));
     const idx = pacientes.findIndex(p => p.prontuario_id === req.params.id);
     if (idx === -1) return res.status(404).json({ erro: 'Paciente não encontrado' });
