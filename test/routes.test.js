@@ -59,6 +59,7 @@ describe('scih-nuvem binary and health routes', () => {
       assert.equal(res.statusCode, 200);
       assert.match(res.headers['content-type'], /application\/vnd\.openxmlformats-officedocument\.spreadsheetml\.sheet/);
       assert.equal(res.headers['content-disposition'], 'attachment; filename="Reporte_Exemplo_Mock.xlsx"');
+      assert.equal(res.headers['x-scih-competencia'], 'Reporte_Exemplo_Mock.xlsx');
       assert.equal(res.headers['cache-control'], 'no-store');
       assert.equal(res.body.length, 21170);
       assert.equal(res.body[0], 0x50);
@@ -72,6 +73,7 @@ describe('scih-nuvem binary and health routes', () => {
       assert.equal(res.statusCode, 200);
       assert.match(res.headers['content-type'], /application\/vnd\.ms-excel/);
       assert.equal(res.headers['content-disposition'], 'attachment; filename="relatorio_permanencia_Exemplo_Mock.xls"');
+      assert.equal(res.headers['x-scih-competencia'], 'relatorio_permanencia_Exemplo_Mock.xls');
       assert.equal(res.headers['cache-control'], 'no-store');
       assert.equal(res.body.length, 34304);
       assert.deepEqual([...res.body.subarray(0, 4)], [0xD0, 0xCF, 0x11, 0xE0]);
@@ -84,6 +86,7 @@ describe('scih-nuvem binary and health routes', () => {
       assert.equal(res.statusCode, 200);
       assert.match(res.headers['content-type'], /application\/pdf/);
       assert.equal(res.headers['content-disposition'], 'inline; filename="r.e.a.l_exemplo-1.pdf"');
+      assert.equal(res.headers['x-scih-competencia'], 'r.e.a.l_exemplo-1.pdf');
       assert.equal(res.headers['cache-control'], 'no-store');
       assert.equal(res.body.subarray(0, 5).toString('ascii'), '%PDF-');
     });

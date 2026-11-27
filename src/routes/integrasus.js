@@ -11,6 +11,7 @@ function enviarArquivo(res, next, filePath, contentType, disposition, filename) 
     }
     res.setHeader('Content-Type', contentType);
     res.setHeader('Content-Disposition', `${disposition}; filename="${filename}"`);
+    res.setHeader('X-Scih-Competencia', filename);
     res.setHeader('Cache-Control', 'no-store');
     res.sendFile(filePath, { cacheControl: false }, (err) => {
         if (err) next(err);
